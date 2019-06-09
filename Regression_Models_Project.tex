@@ -1,0 +1,434 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Regression Models Project - Motor Trend Data Analysis},
+            pdfauthor={Shayan (Sean) Taheri},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Regression Models Project - Motor Trend Data Analysis}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Shayan (Sean) Taheri}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{June 9, 2019}
+
+
+\begin{document}
+\maketitle
+
+\subsection{Executive Summary}\label{executive-summary}
+
+The main goal of this project is analysis of the ``mtcars'' dataset.
+Next, the relationship between a set of variables and miles per gallon
+(MPG) is explored in detail. We extracted the data from the year of 1974
+(``Motor Trend U.S. Magazine''). It comprises fuel consumption and ten
+aspects of automobile design and performance measurement for 32
+automobiles (1973â``74 models). The regresion models are used along
+with the exploratory data analyses. This experiment is help in exploring
+how \textbf{automatic} (am = 0) and \textbf{manual} (am = 1)
+transmissions features affect the \textbf{MPG} feature. The t-test
+demonstrates that the performance differenc between cars with automatic
+and manual transmission. It is about 7 MPG
+
+This analysis let us know that about seven mils per gallon (MPG) more
+for cars with manual transmission than those with automatic
+transmission. Next, we fit several linear regression models and select
+the highest Adjusted R-Squared value. Therefore, the weight given and
+the portion of ¼ mile time are kept constant. Manual transmitted cars
+are defined as 14.079 + (-4.141)*Weight. More MPG on average is better
+than automatic transmitted cars. Accordingly, the cars that are lighter
+in weight with a manual transmission and cars that are heavier in weight
+with an automatic transmission will include higher MPG amounts.
+
+\subsection{Exploratory Data Analysis}\label{exploratory-data-analysis}
+
+Let's load the dataset under analysis, called ``mtcars''. We change some
+variables from the ``numeric'' class to the ``factor'' class.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 3.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(mtcars)}
+\NormalTok{mtcars[}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{, ] }\CommentTok{# Sample Data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4     21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(mtcars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32 11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mtcars}\OperatorTok{$}\NormalTok{cyl <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{cyl)}
+\NormalTok{mtcars}\OperatorTok{$}\NormalTok{vs <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{vs)}
+\NormalTok{mtcars}\OperatorTok{$}\NormalTok{am <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{am)}
+\NormalTok{mtcars}\OperatorTok{$}\NormalTok{gear <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{gear)}
+\NormalTok{mtcars}\OperatorTok{$}\NormalTok{carb <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(mtcars}\OperatorTok{$}\NormalTok{carb)}
+\KeywordTok{attach}\NormalTok{(mtcars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following object is masked from package:ggplot2:
+## 
+##     mpg
+\end{verbatim}
+
+Afterwards, we perform preliminary exploratory data analysis. Take a
+look at the \textbf{Appendix: Figures} section for the plots.According
+to the box plot, it is seen that the manual transmission yields higher
+values of MPG in general. From the pair of graph, it is seen zthat
+higher amount of correlations among the variables such as ``wt'',
+``disp'', ``cyl'' and ``hp'' exist.
+
+\subsection{Inference}\label{inference}
+
+In the step of inference, we make the null hypothesis of having the MPG
+of the automatic and manual transmission stems from the same population
+(with the assumption of the MPG that has a normal distribution). For the
+purpose of graphical analysis, we use the two sample T-test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{am)}
+\NormalTok{result}\OperatorTok{$}\NormalTok{p.value}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.001373638
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result}\OperatorTok{$}\NormalTok{estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## mean in group 0 mean in group 1 
+##        17.14737        24.39231
+\end{verbatim}
+
+Due to having the p-value equalling to 0.00137, the null hypothesis is
+rejected. Therefore, the automatic and manual transmissions are
+extracted from different populations. After completion of this step, the
+mean for MPG of manual transmitted cars is about seven more than that of
+automatic transmitted cars.
+
+\subsection{Regression Analysis}\label{regression-analysis}
+
+For regression analysis step, a fit to the full model is skethed
+according to the following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fullModel <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data=}\NormalTok{mtcars)}
+\KeywordTok{summary}\NormalTok{(fullModel) }\CommentTok{# results hidden}
+\end{Highlighting}
+\end{Shaded}
+
+This model has the Residual Standard Error equalling to 2.833 on 15
+degrees of freedom. Next, we calculate the adjusted R-squared value
+equal to 0.779. This means the model can explain about 78\% of the
+variance of the MPG variable. This is not true always since none of
+coefficients are significant at 0.05 level of significance. Next, we use
+backward selection for selection of some statistically significant
+variables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stepModel <-}\StringTok{ }\KeywordTok{step}\NormalTok{(fullModel, }\DataTypeTok{k=}\KeywordTok{log}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(mtcars)))}
+\KeywordTok{summary}\NormalTok{(stepModel) }\CommentTok{# results hidden}
+\end{Highlighting}
+\end{Shaded}
+
+This model is written as ``mpg \textasciitilde{} wt + qsec + am''. From
+this model, the residual standard error of 2.459 on 28 degrees of
+freedom is achieved. Besides that, the Adjusted R-squared value is
+0.8336. This means that the model can explain about 83\% of the variance
+of the MPG variable. All of the coefficients are significant at 0.05
+level of significance. For more information, we can refer to the
+\textbf{Appendix: Figures} section for the plots again. According to the
+scatter plot, it is indicated that an intersection term between ``wt''
+variable and ``am'' variable exists. Due to the higher level of weight
+in automatic cars than their manual counterparts. Accordingly, the
+following model is developed with the inclusion of the interaction term:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{amIntWtModel<-}\KeywordTok{lm}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{wt }\OperatorTok{+}\StringTok{ }\NormalTok{qsec }\OperatorTok{+}\StringTok{ }\NormalTok{am }\OperatorTok{+}\StringTok{ }\NormalTok{wt}\OperatorTok{:}\NormalTok{am, }\DataTypeTok{data=}\NormalTok{mtcars)}
+\KeywordTok{summary}\NormalTok{(amIntWtModel) }\CommentTok{# results hidden}
+\end{Highlighting}
+\end{Shaded}
+
+This model has the Residual Standrad Error equalling to 2.084 on 27
+degrees of freedom. The adjusted R-squared value is equal to 0.8804 that
+provides us with an interpretation of the model that explains 88\% of
+the variance of the MPG variable. All of the coefficients are
+significant at the 0.05 level of significance. Completion of this step
+leads a simple model with MPG as the outcome variable and Transmission
+as the predictor variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{amModel<-}\KeywordTok{lm}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{am, }\DataTypeTok{data=}\NormalTok{mtcars)}
+\KeywordTok{summary}\NormalTok{(amModel) }\CommentTok{# results hidden}
+\end{Highlighting}
+\end{Shaded}
+
+On average, a car has 17.147 MPG using automatic transmission and 7.245
+MPG with manual transmission. The model has the Residual Standard Error
+as 4.902 on 30 degrees of freedom. Besides that, the Adjusted R-squared
+value is equal to 0.3385. This means that the model is capable of
+explaining 34\% of the variance of the MPG variable. The low Adjusted
+R-squared value shows the need to add other variables to the model.
+After this step, the model is complete and ready to be chosen.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{anova}\NormalTok{(amModel, stepModel, fullModel, amIntWtModel) }
+\KeywordTok{confint}\NormalTok{(amIntWtModel) }\CommentTok{# results hidden}
+\end{Highlighting}
+\end{Shaded}
+
+The model with the highest Adjusted R-squared value is selected that is
+presented as: ``mpg \textasciitilde{} wt + qsec + am + wt:am''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(amIntWtModel)}\OperatorTok{$}\NormalTok{coef}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept)  9.723053  5.8990407  1.648243 0.1108925394
+## wt          -2.936531  0.6660253 -4.409038 0.0001488947
+## qsec         1.016974  0.2520152  4.035366 0.0004030165
+## am1         14.079428  3.4352512  4.098515 0.0003408693
+## wt:am1      -4.141376  1.1968119 -3.460340 0.0018085763
+\end{verbatim}
+
+That is, a manual transmitted car that weighs 2000 lbs have 5.797 more
+MPG than an automatic transmitted car that has both the same weight and
+1/4 mile time. Based on this analysis, the result shows the importance
+of ``wt'' (weight lb/1000) and ``qsec'' (1/4 mile time) when they stay
+constant. Cars with the manual transmission has an additional level of
+14.079 + (-4.141)*wt more MPG (miles per gallon) on average than cars
+with automatic transmission. A manual transmitted car with the weight of
+2000 lbs has 5.797 more MPG than an automatic transmitted car. This
+implies that both have the same weight and ¼ mile time.
+
+\subsection{Residual Analysis and
+Diagnostics}\label{residual-analysis-and-diagnostics}
+
+The plots are shown in the \textbf{Appendix: Figures} section. The
+residual plots help us to verify the following underlying assumptions:
+A. The residual versus Fitted plot shows no consistent pattern,
+supporting the accuracy of the independent assumption. B. The Normal Q-Q
+plot shows us the normal distribution of the residuals due to the
+positioning of the points close to the line. C. The Scale-Location plot
+confirms that the consistent variance assumption as the point sare
+randomly distributed. D. The Residuals versus Leverage argues that no
+outliers are present. All the values fall well within the 0.5 bands. E.
+As for the Dfbetas, the measure of how much an observation has been
+affected by the estimate of a regression coefficient.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{((}\KeywordTok{abs}\NormalTok{(}\KeywordTok{dfbetas}\NormalTok{(amIntWtModel)))}\OperatorTok{>}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+With these assumptions, the analyses given above will meet all the basic
+assumptions of linear regression.
+
+\subsection{Appendix: Figures}\label{appendix-figures}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Boxplot of MPG Vs. Transmission:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(mpg }\OperatorTok{~}\StringTok{ }\NormalTok{am, }\DataTypeTok{xlab=}\StringTok{"Transmission (0 = Automatic, 1 = Manual)"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"MPG"}\NormalTok{,}
+        \DataTypeTok{main=}\StringTok{"Boxplot of MPG vs. Transmission"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Test_files/figure-latex/unnamed-chunk-10-1.pdf} 2. Pair
+Graph of Motor Trend Car Road Tests:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pairs}\NormalTok{(mtcars, }\DataTypeTok{panel=}\NormalTok{panel.smooth, }\DataTypeTok{main=}\StringTok{"Pair Graph of Motor Trend Car Road Tests"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Test_files/figure-latex/unnamed-chunk-11-1.pdf} 3.
+Scatter Plot of MPG Vs. Weight by Transmission:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(mtcars, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{wt, }\DataTypeTok{y=}\NormalTok{mpg, }\DataTypeTok{group=}\NormalTok{am, }\DataTypeTok{color=}\NormalTok{am, }\DataTypeTok{height=}\DecValTok{3}\NormalTok{, }\DataTypeTok{width=}\DecValTok{3}\NormalTok{)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{  }
+\KeywordTok{scale_colour_discrete}\NormalTok{(}\DataTypeTok{labels=}\KeywordTok{c}\NormalTok{(}\StringTok{"Automatic"}\NormalTok{, }\StringTok{"Manual"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
+\KeywordTok{xlab}\NormalTok{(}\StringTok{"weight"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Scatter Plot of MPG vs. Weight by Transmission"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Test_files/figure-latex/unnamed-chunk-12-1.pdf} 4.
+Residual Plots:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(amIntWtModel)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Test_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+
+\end{document}
